@@ -2,6 +2,8 @@
 
 An integrated Unity-ROS2 system for autonomous robot navigation with intelligent battery management. Robots navigate through environments using A* pathfinding while monitoring battery levels and autonomously returning to charging stations when needed.
 
+[![Demo](https://img.youtube.com/vi/QO12y17KPHA/0.jpg)](https://www.youtube.com/watch?v=QO12y17KPHA)
+
 ## Project Overview
 
 This project implements a complete robotics simulation system combining:
