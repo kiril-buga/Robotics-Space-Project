@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Robotics.ROSTCPConnector;
 using UnityEngine;
+using RosMessageTypes.Std;
 
 public abstract class GenericRobotController : MonoBehaviour
 {
@@ -28,8 +29,8 @@ public abstract class GenericRobotController : MonoBehaviour
     protected int currentPathIndex = 0;
     protected MapTarget currentTarget;
 
-    public string topicNameTarget = "/target";
-    public string topicNamePath = "/astar_path";
+    public string topicNameTarget = "target";
+    public string topicNamePath = "astar_path";
 
     protected bool waitingForPath;
     protected bool isReturningToBase = false;
@@ -58,18 +59,18 @@ public abstract class GenericRobotController : MonoBehaviour
         // Check if the point is reached
         if (distance <= reachThreshold)
         {
-            Debug.Log($"Reached path point [{currentPathIndex}]: {target}");
+            //Debug.Log($"Reached path point [{currentPathIndex}]: {target}");
 
             currentPathIndex++;
             if (currentPathIndex >= currentPath.Count)
             {
-                Debug.Log("Path completed!");
+                //Debug.Log("Path completed!");
                 isMoving = false;
                 OnReachedTarget();
                 return;
             }
 
-            Debug.Log($"Next path point [{currentPathIndex}]: {currentPath[currentPathIndex]}");
+            //Debug.Log($"Next path point [{currentPathIndex}]: {currentPath[currentPathIndex]}");
             moveState = MoveState.Rotating;
             return;
         }
@@ -102,6 +103,7 @@ public abstract class GenericRobotController : MonoBehaviour
 
     protected void OnRosPathReceived(PathMsg msg)
     {
+        Debug.Log($"<color=green>Path received from ROS for {robotId}</color>");
         waitingForPath = false;
         currentPath.Clear();
 
@@ -128,6 +130,9 @@ public abstract class GenericRobotController : MonoBehaviour
         PoseArrayMsg msg = new PoseArrayMsg();
         msg.poses = new PoseMsg[2];
 
+        msg.header = new HeaderMsg();
+        msg.header.frame_id = robotId; 
+
         // Robot position
         Vector3 robotPos = transform.position;
         PoseMsg robotPose = new PoseMsg();
@@ -141,9 +146,12 @@ public abstract class GenericRobotController : MonoBehaviour
         targetPose.orientation = new QuaternionMsg(0, 0, 0, 1);
         msg.poses[1] = targetPose;
 
-        ros.Publish(topicNameTarget, msg);
+        string fullTargetTopic = $"/{robotId}{topicNameTarget}"; // Topic should be unique per each robot
 
-        Debug.Log($"<color=yellow>PoseArray published Robot: {robotPos} | Target: {target}</color>");
+        Debug.Log($"<color=yellow>Publishing target: {fullTargetTopic} | target: {target}</color>");
+        ros.Publish(fullTargetTopic, msg);
+
+        //Debug.Log($"<color=yellow>PoseArray published Robot: {robotPos} | Target: {target}</color>");
         waitingForPath = true;
     }
     protected abstract void OnReachedTarget();
