@@ -1,8 +1,8 @@
-# Robotics Battery-Aware Navigation System
+# Multi-robot Exploration Simulation 🪐
 
-An integrated Unity-ROS2 system for autonomous robot navigation with intelligent battery management. Robots navigate through environments using A* pathfinding while monitoring battery levels and autonomously returning to charging stations when needed.
+A Unity-**ROS2** multi-robot simulation with A* navigation, collision avoidance, and autonomous battery management. Robots navigate to excavation points while monitoring battery levels and autonomously returning to charging stations when needed.
 
-[![Demo](https://img.youtube.com/vi/QO12y17KPHA/0.jpg)](https://www.youtube.com/watch?v=QO12y17KPHA)
+![RoboticsDemo](https://github.com/user-attachments/assets/f2eb0105-bca1-4ab7-89a8-c2619bdbd545)
 
 ## Project Overview
 
@@ -10,6 +10,10 @@ This project implements a complete robotics simulation system combining:
 - **Unity Simulation** - 3D environment with physics-based robot control and battery simulation
 - **ROS2 Backend** - Path planning, battery monitoring, and health metrics
 - **Battery Management** - Autonomous charging behavior with predictive mission planning
+
+▶️ Watch Full Demonstration
+
+[▶️ Watch Demo](https://github.com/user-attachments/assets/6042e744-0d82-449e-be8f-56343ab87a41)
 
 ### Key Features
 
@@ -31,16 +35,16 @@ This project implements a complete robotics simulation system combining:
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                         UNITY SIMULATION                             │
-│                                                                       │
-│  ┌───────────────────────────────────────────────────────────────┐ │
-│  │          GenericRobotController (Base Class)                   │ │
-│  │  • Movement & Pathfinding  • Battery Management References    │ │
-│  │  • ROS Communication       • Charging Station Logic           │ │
-│  │  • Collision Response      • Dynamic Path Replanning          │ │
-│  └──────────────────────────┬────────────────────────────────────┘ │
+│                         UNITY SIMULATION                            │
+│                                                                     │
+│  ┌───────────────────────────────────────────────────────────────┐  │
+│  │          GenericRobotController (Base Class)                  │  │
+│  │  • Movement & Pathfinding  • Battery Management References    │  │
+│  │  • ROS Communication       • Charging Station Logic           │  │
+│  │  • Collision Response      • Dynamic Path Replanning          │  │
+│  └──────────────────────────┬────────────────────────────────────┘  │
 │                             │ Inherits                              │
-│  ┌──────────────────────────▼──────────┐  ┌──────────────────────┐ │
+│  ┌──────────────────────────▼───────────┐  ┌──────────────────────┐ │
 │  │     ExplorerController               │  │  BatterySimulator    │ │
 │  │                                      │  │                      │ │
 │  │ • Mission Queue & Planning           │  │ • Drain Physics      │ │
@@ -48,46 +52,46 @@ This project implements a complete robotics simulation system combining:
 │  │ • Excavation Point Management        │  │ • ROS Publishing     │ │
 │  │ • Round-Robin Task Allocation        │  │                      │ │
 │  └──────────────────────────────────────┘  └──────────────────────┘ │
-│           │                                        │                 │
-│           │ Requests Paths                         │ Publishes       │
-│           │ Publishes Position                     ▼                 │
-│           ▼                                                          │
-└───────────────────────────────────────────────────────────────────────┘
+│           │                                        │                │
+│           │ Requests Paths                         │ Publishes      │
+│           │ Publishes Position                     ▼                │
+│           ▼                                                         │
+└─────────────────────────────────────────────────────────────────────┘
             │                      │                      │
             │ /target              │ /battery_state       │ /pose
             │ /astar_path          │ /charging_status     │ /collision_detected
             ▼                      ▼                      ▼
-┌───────────────────────────────────────────────────────────────────────┐
-│                         ROS2 SYSTEM                                   │
-│                                                                       │
+┌─────────────────────────────────────────────────────────────────────┐
+│                         ROS2 SYSTEM                                 │
+│                                                                     │
 │  ┌───────────────────────────────────────────────────────────────┐  │
-│  │              Collision Coordinator Node                        │  │
+│  │              Collision Coordinator Node                       │  │
 │  │  • Real-Time Collision Detection  • Path Approval Service     │  │
 │  │  • Predictive Algorithm (1s)      • Priority Resolution       │  │
 │  │  • Deadlock Detection (8s)        • Hysteresis Control (0.5s) │  │
 │  └───────────────────────────────────────────────────────────────┘  │
-│                                                                       │
-│  ┌────────────────────┐         ┌──────────────────────────────┐   │
-│  │ A* Navigation Node │         │    Battery Manager Node      │   │
-│  │                    │         │                              │   │
-│  │ • Path Planning    │         │ • Health Monitoring          │   │
-│  │ • Obstacle Avoid   │         │ • Drain Rate Calculation     │   │
-│  │ • Grid Conversion  │         │ • Alert System               │   │
-│  │ • Service Client   │         │ • Metrics Publishing         │   │
-│  └────────────────────┘         └──────────────────────────────┘   │
-│                                                                       │
-│  ┌─────────────────────────────────────────────────────────────┐   │
-│  │              ROS-TCP-Endpoint (Unity Bridge)                 │   │
-│  │              Handles Unity ↔ ROS2 Communication              │   │
-│  └─────────────────────────────────────────────────────────────┘   │
-└───────────────────────────────────────────────────────────────────────┘
+│                                                                     │
+│  ┌────────────────────┐         ┌──────────────────────────────┐    │
+│  │ A* Navigation Node │         │    Battery Manager Node      │    │
+│  │                    │         │                              │    │
+│  │ • Path Planning    │         │ • Health Monitoring          │    │
+│  │ • Obstacle Avoid   │         │ • Drain Rate Calculation     │    │
+│  │ • Grid Conversion  │         │ • Alert System               │    │
+│  │ • Service Client   │         │ • Metrics Publishing         │    │
+│  └────────────────────┘         └──────────────────────────────┘    │
+│                                                                     │
+│  ┌─────────────────────────────────────────────────────────────┐    │
+│  │              ROS-TCP-Endpoint (Unity Bridge)                │    │
+│  │              Handles Unity ↔ ROS2 Communication             │    │
+│  └─────────────────────────────────────────────────────────────┘    │
+└─────────────────────────────────────────────────────────────────────┘
 ```
 
 ## Project Structure
 
 ```
-Robotics_Pennesi_Reucci_Buga_Exam/
-├── Robotics_env_exam_Pennesi_Reucci/    # Unity Project
+Robotics-Space-Project/
+├── Robotcs_env_unity/    # Unity Project
 │   ├── Assets/
 │   │   ├── Scenes/
 │   │   │   └── SampleScene.unity         # Main simulation scene
