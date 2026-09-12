@@ -3,7 +3,7 @@
 <package format="3">
   <name>space_project</name>
   <version>0.0.0</version>
-  <description>TODO: Package description</description>
+  <description>Multi-robot exploration and excavation: A* path planning, predictive collision avoidance and battery-aware mission planning for a Unity simulation.</description>
   <maintainer email="diego@todo.todo">diego</maintainer>
   <license>Apache-2.0</license>
 

@@ -18,7 +18,7 @@ setup(
     zip_safe=True,
     maintainer='diego',
     maintainer_email='diego@todo.todo',
-    description='TODO: Package description',
+    description='Multi-robot exploration and excavation: A* path planning, predictive collision avoidance and battery-aware mission planning for a Unity simulation.',
     license='Apache-2.0',
     extras_require={
         'test': [
