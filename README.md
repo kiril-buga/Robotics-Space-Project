@@ -91,7 +91,7 @@ This project implements a complete robotics simulation system combining:
 
 ```
 Robotics-Space-Project/
-├── Robotcs_env_unity/    # Unity Project
+├── Robotics_env_unity/   # Unity Project
 │   ├── Assets/
 │   │   ├── Scenes/
 │   │   │   └── SampleScene.unity         # Main simulation scene
@@ -99,7 +99,6 @@ Robotics-Space-Project/
 │   │   │   ├── GenericRobotController.cs # Base class for all robot types
 │   │   │   ├── ExplorerController.cs     # Explorer-specific mission planning
 │   │   │   ├── BatterySimulator.cs       # Physics-based battery simulation
-│   │   │   ├── AStarController.cs        # Unity A* integration
 │   │   │   └── MapGenerator.cs           # Occupancy grid generation
 │   │   └── Resources/
 │   │       └── ROSConnectionPrefab.prefab # ROS connection configuration
@@ -108,10 +107,10 @@ Robotics-Space-Project/
 └── space_project/                         # ROS2 Package
     ├── space_project/
     │   ├── astar_navigation_node.py       # A* path planning
-    │   └── battery_manager.py             # Battery monitoring & health metrics
+    │   ├── battery_manager.py             # Battery monitoring & health metrics
+    │   └── collision_coordinator_node.py  # Collision avoidance & path approval
     ├── launch/
-    │   ├── battery_system.launch.py       # Complete system launch
-    │   └── multi_robots.launch.py         # Multi-robot launch
+    │   └── battery_system.launch.py       # Complete system launch
     ├── package.xml
     ├── setup.py
     └── README.md                          # Detailed ROS2 documentation
